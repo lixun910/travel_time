@@ -1,6 +1,7 @@
 import sys, os
 from setuptools.extension import Extension
 from setuptools import setup
+from setuptools.command.build_py import build_py as _build_py
 import re
 
 with open("README.md", "r") as fh:
@@ -71,6 +72,11 @@ def get_property(prop, project):
     result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
     return result.group(1)
 
+class Build_ext_first(_build_py):
+    def run(self):
+        self.run_command("build_ext")
+        return super().run()
+
 PROJECT_NAME='spatial_access'
 
 setup(
@@ -80,6 +86,7 @@ setup(
     author_email='lnoel@uchicago.edu',
     version=get_property('__version__', PROJECT_NAME),
     ext_modules=EXTENSIONS,
+    cmdclass={'install': Build_ext_first},
     py_modules=SUBMODULE_NAMES,
     install_requires=REQUIRED_DEPENDENCIES,
     long_description=LONG_DESCRIPTION,
