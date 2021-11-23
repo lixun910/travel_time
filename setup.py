@@ -25,7 +25,7 @@ def build_extension(extension_name, sources):
     full_path_sources = [SRC_PATH + src for src in sources]
     return Extension(name=extension_name, language='c++',
                      sources=full_path_sources,
-                     extra_compile_args=['--std=c++11', '-Ofast', '-fomit-frame-pointer', "-g0"] + ouff_mac,
+                     extra_compile_args=['--std=c++11', '-O2', '-fomit-frame-pointer'] + ouff_mac,
                      undef_macros=["NDEBUG"],
                      extra_link_args=ouff_mac)
 
@@ -72,11 +72,6 @@ def get_property(prop, project):
     result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
     return result.group(1)
 
-class Build_ext_first(_build_py):
-    def run(self):
-        self.run_command("build_ext")
-        return super().run()
-
 PROJECT_NAME='spatial_access'
 
 setup(
@@ -86,7 +81,6 @@ setup(
     author_email='lnoel@uchicago.edu',
     version=get_property('__version__', PROJECT_NAME),
     ext_modules=EXTENSIONS,
-    cmdclass={'install': Build_ext_first},
     py_modules=SUBMODULE_NAMES,
     install_requires=REQUIRED_DEPENDENCIES,
     long_description=LONG_DESCRIPTION,
