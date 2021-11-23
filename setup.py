@@ -69,10 +69,10 @@ if 'READTHEDOCS' in os.environ:
     EXTENSIONS = []
 
 def get_property(prop, project):
-    result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
+    result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open('spatial_access/__init__.py').read())
     return result.group(1)
 
-PROJECT_NAME='spatial_access'
+PROJECT_NAME='travel_time'
 
 setup(
     name=PROJECT_NAME,
