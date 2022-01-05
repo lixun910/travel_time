@@ -166,6 +166,10 @@ public:
     value_type
     getValueById(const row_label_type& row_id, const col_label_type& col_id) const
     {
+        if (rowIdsToLoc.find(row_id) == rowIdsToLoc.end() || colIdsToLoc.find(col_id) == colIdsToLoc.end()) {
+            std::cout << "dataFrame.h getValueById" << std::endl;
+            return getValueByLoc(0, 0);
+        }
         unsigned long int row_loc = rowIdsToLoc.at(row_id);
         unsigned long int col_loc = colIdsToLoc.at(col_id);
         return getValueByLoc(row_loc, col_loc);
@@ -174,6 +178,9 @@ public:
     void
     setValueById(const row_label_type& row_id, const col_label_type& col_id, value_type value)
     {
+        if (rowIdsToLoc.find(row_id) == rowIdsToLoc.end() || colIdsToLoc.find(col_id) == colIdsToLoc.end()) {
+            std::cout << "dataFrame.h setValueById" << std::endl;
+        }
         unsigned long int row_loc = rowIdsToLoc.at(row_id);
         unsigned long int col_loc = colIdsToLoc.at(col_id);
         setValueByLoc(row_loc, col_loc, value);
@@ -184,6 +191,13 @@ public:
     getValuesByRowId(const row_label_type& row_id, bool sort) const
     {
         std::vector<std::pair<col_label_type, value_type>> returnValue;
+
+
+        if (rowIdsToLoc.find(row_id) == rowIdsToLoc.end()) {
+            std::cout << "dataFrame.h getValuesByRowId" << std::endl;
+            return returnValue;
+        }
+
         unsigned long int row_loc = rowIdsToLoc.at(row_id);
         for (unsigned long int col_loc = 0; col_loc < cols; col_loc++)
         {
@@ -203,6 +217,12 @@ public:
     getValuesByColId(const col_label_type& col_id, bool sort) const
     {
         std::vector<std::pair<row_label_type, value_type>> returnValue;
+
+        if (colIdsToLoc.find(col_id) == colIdsToLoc.end()) {
+            std::cout << "dataFrame.h getValuesByColId" << std::endl;
+            return returnValue;
+        }
+
         unsigned long int col_loc = colIdsToLoc.at(col_id);
         for (unsigned long int row_loc = 0; row_loc < rows; row_loc++)
         {
@@ -249,6 +269,9 @@ public:
     unsigned long int
     getRowLocForId(const row_label_type& row_id) const
     {
+        if (rowIdsToLoc.find(row_id) == rowIdsToLoc.end()) {
+            std::cout << "dataFrame.h getRowLocForId" << std::endl;
+        }
         return rowIdsToLoc.at(row_id);
     }
 
@@ -256,6 +279,9 @@ public:
     unsigned long int
     getColLocForId(const col_label_type& col_id) const
     {
+        if (colIdsToLoc.find(col_id) == colIdsToLoc.end()) {
+            std::cout << "dataFrame.h getColLocForId" << std::endl;
+        }
         return colIdsToLoc.at(col_id);
     }
 

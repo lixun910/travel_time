@@ -3,7 +3,7 @@
 // ©2017-2019, Center for Spatial Data Science
 
 #pragma once
-
+#include <iostream>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -74,6 +74,10 @@ public:
     }
     const userDataTract<value_type>& retrieveTract(unsigned long int networkNodeId) const
     {
+        if (data.find(networkNodeId) == data.end()) {
+            std::cout << "retrieveTract error!" << networkNodeId << std::endl;
+            return data.at(0);
+        }
         return data.at(networkNodeId);
     }
 

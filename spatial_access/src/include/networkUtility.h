@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <algorithm>
+#include <iostream>
 
 typedef unsigned long int unsigned_long;
 template<class node_id>
